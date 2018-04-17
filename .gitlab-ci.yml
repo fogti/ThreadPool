@@ -24,3 +24,6 @@ mingw:
     - meson build --cross-file mingw.ini
     - ninja -C build
     - TMP=$PWD && cd /usr/x86_64-w64-mingw32/sys-root/mingw/bin && wine $TMP/build/example.exe
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
