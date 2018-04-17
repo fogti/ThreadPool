@@ -1,5 +1,4 @@
-ThreadPool
-==========
+# ThreadPool [![pipeline status](https://gitlab.com/jhasse/ThreadPool/badges/master/pipeline.svg)](https://gitlab.com/jhasse/ThreadPool/commits/master)
 
 A simple C++17 Thread Pool implementation.
 
