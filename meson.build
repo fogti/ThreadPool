@@ -4,4 +4,4 @@ threads_dep = dependency('threads')
 
 executable('example', sources : ['example.cpp'], dependencies : [threads_dep])
 
-install_headers('ThreadPool.h')
+install_headers('ThreadPool.hpp')

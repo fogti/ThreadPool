@@ -6,6 +6,7 @@ gcc:
     - meson build
     - ninja -C build
     - ./build/example
+    - ninja -C build install
 
 clang:
   image: fedora:27
