@@ -1,7 +1,7 @@
 #ifndef THREAD_POOL_H
 #define THREAD_POOL_H
 
-#include <function2/function2.hpp>
+#include <functional>
 #include <future>
 #include <queue>
 
@@ -16,7 +16,7 @@ private:
     // need to keep track of threads so we can join them
     std::vector< std::thread > workers;
     // the task queue
-    std::queue< fu2::unique_function<void()> > tasks;
+    std::queue< std::packaged_task<void()> > tasks;
 
     // synchronization
     std::mutex queue_mutex;
@@ -34,7 +34,7 @@ inline ThreadPool::ThreadPool(size_t threads)
             {
                 for(;;)
                 {
-                    fu2::unique_function<void()> task;
+                    std::packaged_task<void()> task;
 
                     {
                         std::unique_lock<std::mutex> lock(this->queue_mutex);
@@ -59,11 +59,11 @@ auto ThreadPool::enqueue(F&& f, Args&&... args)
 {
     using return_type = std::invoke_result_t<F, Args...>;
 
-    auto task = std::make_unique< std::packaged_task<return_type()> >(
+    std::packaged_task<return_type()> task(
             std::bind(std::forward<F>(f), std::forward<Args>(args)...)
         );
 
-    std::future<return_type> res = task->get_future();
+    std::future<return_type> res = task.get_future();
     {
         std::unique_lock<std::mutex> lock(queue_mutex);
 
@@ -71,7 +71,7 @@ auto ThreadPool::enqueue(F&& f, Args&&... args)
         if(stop)
             throw std::runtime_error("enqueue on stopped ThreadPool");
 
-        tasks.emplace([task = std::move(task)]() { (*task)(); });
+        tasks.emplace(std::move(task));
     }
     condition.notify_one();
     return res;
