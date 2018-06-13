@@ -4,8 +4,6 @@ gcc:
   script:
     - dnf install -y meson gcc-c++
     - meson build
-    - ninja -C build
-    - ./build/example
     - ninja -C build test install
 
 clang:
@@ -15,7 +13,6 @@ clang:
     - dnf install -y meson clang
     - CC=clang CXX=clang++ meson build
     - ninja -C build test
-    - ./build/example
 
 mingw:
   image: fedora:28
