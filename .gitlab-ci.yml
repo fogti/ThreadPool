@@ -1,30 +1,29 @@
 gcc:
-  image: fedora:27
+  image: fedora:28
   stage: build
   script:
     - dnf install -y meson gcc-c++
     - meson build
     - ninja -C build
     - ./build/example
-    - ninja -C build install
+    - ninja -C build test install
 
 clang:
-  image: fedora:27
+  image: fedora:28
   stage: build
   script:
     - dnf install -y meson clang
     - CC=clang CXX=clang++ meson build
-    - ninja -C build
+    - ninja -C build test
     - ./build/example
 
 mingw:
-  image: fedora:27
+  image: fedora:28
   stage: build
   script:
     - dnf install -y gcc-c++ meson mingw64-gcc-c++ wine-core
     - meson build --cross-file mingw.ini
-    - ninja -C build
-    - TMP=$PWD && cd /usr/x86_64-w64-mingw32/sys-root/mingw/bin && wine $TMP/build/example.exe
+    - WINEPATH=/usr/x86_64-w64-mingw32/sys-root/mingw/bin ninja -C build test
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
