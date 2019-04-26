@@ -2,7 +2,7 @@ project('ThreadPool', ['cpp'], default_options : ['cpp_std=c++17'])
 
 threads_dep = dependency('threads')
 
-lib = static_library('ThreadPool', 'ThreadPool.cpp')
+lib = static_library('ThreadPool', 'ThreadPool.cxx')
 
 install_headers('ThreadPool.hpp')
 
