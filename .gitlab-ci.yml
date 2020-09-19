@@ -2,7 +2,7 @@ gcc:
   image: fedora:28
   stage: build
   script:
-    - dnf install -y meson gcc-c++
+    - dnf install -y meson pkg-config gcc-c++
     - meson build
     - ninja -C build test install
 
@@ -10,7 +10,7 @@ clang:
   image: fedora:28
   stage: build
   script:
-    - dnf install -y meson clang
+    - dnf install -y meson pkg-config clang
     - CC=clang CXX=clang++ meson build
     - ninja -C build test
 
@@ -18,7 +18,7 @@ mingw:
   image: fedora:28
   stage: build
   script:
-    - dnf install -y gcc-c++ meson mingw64-gcc-c++ wine-core
+    - dnf install -y meson pkg-config gcc-c++ mingw64-gcc-c++ wine-core
     - meson build --cross-file mingw.ini
     - WINEPATH=/usr/x86_64-w64-mingw32/sys-root/mingw/bin ninja -C build test
 
