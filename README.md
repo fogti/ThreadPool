@@ -1,6 +1,7 @@
 # ThreadPool [![pipeline status](https://gitlab.com/jhasse/ThreadPool/badges/master/pipeline.svg)](https://gitlab.com/jhasse/ThreadPool/commits/master)
 
 A simple C++17 Thread Pool implementation.
+This library uses `meson` as the build system and installs a library + `pkg-config`-file.
 
 Basic usage:
 ```c++
@@ -21,7 +22,7 @@ Simple example program:
 #include <vector>
 #include <chrono>
 
-#include "ThreadPool.h"
+#include "ThreadPool.hpp"
 
 int main()
 {

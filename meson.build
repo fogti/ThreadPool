@@ -4,17 +4,17 @@ project('ThreadPool', ['cpp'],
 
 threads_dep = dependency('threads')
 pkgg = import('pkgconfig')
+inc = include_directories('.')
 
-lib = static_library('ThreadPool',
+lib = library('ThreadPool',
     'ThreadPool.cxx',
     'ThreadPool.hpp',
     dependencies : [threads_dep],
-    pic : true,
+    include_directories : inc,
     install : true)
 
 install_headers('ThreadPool.hpp')
 
 pkgg.generate(lib)
 
-inc = include_directories('.')
 threadpool_dep = declare_dependency(link_with : lib, include_directories : inc)
