@@ -27,7 +27,7 @@ private:
 template<class F, class... Args>
 decltype(auto) ThreadPool::enqueue(F&& f, Args&&... args)
 {
-    using return_type = std::invoke_result_t<F, Args...>;
+    using return_type = decltype(f(args...));
 
     std::packaged_task<return_type()> task(
             std::bind(std::forward<F>(f), std::forward<Args>(args)...)
